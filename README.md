@@ -1,5 +1,5 @@
-# SB-Admin - Sistema Base de Administração
-Aplicação feita com Adonisjs, front e backend, com toda a parte de criação, autenticação e validação de usuários.
+# SB-Estoque - Sistema de Controle de Estoque para o LRX
+Aplicação feita com Adonisjs, front e backend, com toda a parte de criação, autenticação e validação de usuários e controle de estoque.
 
 ## Setup
 
@@ -12,7 +12,7 @@ npm i -g @adonisjs/cli
 Clone este espositório com 
 
 ```bash
-git clone https://github.com/luisrodriguesds/sb-admin.git
+git clone https://github.com/luisrodriguesds/sb-estoque.git
 ```
 
 Dentro da pasta digite
