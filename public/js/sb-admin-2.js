@@ -46,4 +46,6 @@
     e.preventDefault();
   });
 
+  //Mask
+  $('[name=phone]').mask('(99)99999-9999')
 })(jQuery); // End of use strict

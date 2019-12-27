@@ -7,6 +7,7 @@ class StoreUser {
       name:'required|min:3|max:240',
       like_name:'required|min:3|max:240',
       email:'required|email|unique:users',
+      phone:'required|min:8',
       password:'required|min:6|confirmed',
     }
   }
@@ -22,6 +23,8 @@ class StoreUser {
       'email.required':'Campo obrigatório',
       'email.email':'Email inválido',
       'email.unique':'Este email já existe',
+      'phone.required':'Campo obrigatório',
+      'phone.min':'Campo com mínimo de 8 caracteres',
       'password.required':'Campo obrigatório',
       'password.confirmed':'As senhas não corresposndem',
       'password.min':'Senha com mínimo de 6 caracteres!',

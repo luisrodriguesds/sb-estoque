@@ -31,8 +31,19 @@ Route.group(() => {
     Route.post('/user/store', 'UserController.store').as('user.store').validator(['StoreUser']).middleware(['guest'])
     Route.post('/user/login', 'UserController.login').as('user.login').middleware(['guest']).validator(['Login'])
     Route.post('/user/logout', 'UserController.logout').as('user.logout')
+
+    //Pages
+    Route.get('/usuarios', 'UserController.index').as('user.index')
 })
 
 Route.group(() => { 
     Route.on('/dashboard').render('dashboard.dashboard').middleware(['auth'])
 })
+
+Route.group(() => { 
+
+    Route.get('/produtos', 'ProductController.index').as('product.index')
+    Route.get('/produtos/cadastrar', 'ProductController.create').as('product.create')
+
+})
+

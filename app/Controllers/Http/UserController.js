@@ -20,6 +20,8 @@ class UserController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+
+    return view.render('dashboard.users-index')
   }
 
   /**
@@ -44,15 +46,28 @@ class UserController {
    * @param {Response} ctx.response
    */
   async store ({ request, response, session }) {
-    const user = await User.create({
-      name:request.input('name'),
-      like_name:request.input('like_name'),
-      email:request.input('email'),
-      password:request.input('password'),
-    });
+    try {
+      await User.create({
+        name:request.input('name'),
+        like_name:request.input('like_name'),
+        email:request.input('email'),
+        password:request.input('password'),
+        phone:request.input('phone'),
+        access:'Operador',
+        access_slug:'operador',
+        status:2
+      });
+      //Status -> 0: Inativo, 1:Ativo, 2:Pendente
+      //Mail para o professor Sasaki Liberar a entrada no sistema
 
-    session.flash({ notification: 'Conta criada com sucesso! Verifique sua caixa de email!' })
-    return response.redirect('/login');
+      session.flash({ notification: 'Conta criada com sucesso! Verifique sua caixa de email!' })
+      return response.redirect('/login');
+      
+    } catch (error) {
+      session.flash({ notification: 'Algo inesperado acontaceu! Por favor entre em contato com o laboratório.' })
+      return response.redirect('/login');
+    }
+
   }
 
   /**
@@ -110,7 +125,16 @@ class UserController {
    * @param {Response} ctx.response
    */
   async login ({request, auth, session, response}){
-    await auth.attempt(request.input('email'), request.input('password'));
+    const {email=null} = request.all()
+    
+    //Check if status is 1
+    const user = await User.findBy('email',email)
+    if (user.toJSON().status !== 1) {
+      session.flash({ notification: `Você não pode acessar o sistema pois seu status é ${(user.toJSON().status == 2 ? 'Pendênte' : 'Inativo')}` })
+      return response.redirect('/login');
+    }
+
+    await auth.attempt(request.input('email'), request.input('password'))
 
     session.flash({ notification: 'Login efetuado com sucesso!' })
     return response.redirect('/dashboard');
