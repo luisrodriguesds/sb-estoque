@@ -1,0 +1,81 @@
+@layout('layout.main') 
+@section('dashboard')
+
+<h1 class="h3 mb-2 text-gray-800">Cadastrar Categoria</h1>
+<p class="mb-4">Página para cadastro de mais categoria</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Categoria</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper">
+            <form class="ml-2" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="nome" class=""><span class="text-danger">*</span> Nome</label>
+                            <input name="nome" id="nome" placeholder="Digite o nome da categoria..." type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="price" class=""> Icone</label>
+                            <input name="price" id="price" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="form-divider">
+                        Cadastrar Subcategoria
+                    </div>
+                    <div class="origin row" id="origin" style="width: 100%;">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="subname" class=""> <span class="text-danger">*</span> Nome</label>
+                                <input name="subname[]" id="subname" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="subicone" class=""> Icone</label>
+                                <input name="subicone[]" id="subicone" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destiny row" id="destiny" style="width: 100%;">
+                    </div>
+                    <div class="col-12 text-right">
+                        <div class="position-relative form-group">
+                            <div class="btn-group" role="group" aria-label="Exemplo básico">
+                                <button type="button" class="btn btn-success" onclick="duplicarCampos();"><strong>
+                                    <i class="fas fa-plus"></i>
+                                </strong></button>
+                                <button type="button" class="btn btn-danger" onclick="removerCampos(this)"><strong>
+                                    <i class="fas fa-minus"></i>
+                                </strong></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="control-form btn btn-success btn-block">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//PARA ADD OU REMOVER CAMPOS
+    function duplicarCampos(){
+        var clone = document.getElementById('origin').cloneNode(true);
+        var destino = document.getElementById('destiny');
+        destino.appendChild (clone);
+        var camposClonados = clone.getElementsByTagName('input');
+        for(i=0; i<camposClonados.length;i++){
+            camposClonados[i].value = '';
+        }
+    }
+
+    function removerCampos(id){
+        var node1 = document.getElementById('destiny');
+        node1.removeChild(node1.childNodes[0]);
+    }
+</script>
+@endsection

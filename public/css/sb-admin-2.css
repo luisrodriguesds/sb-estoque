@@ -1719,9 +1719,16 @@ pre code {
   color: #6e707e;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #d1d3e2;
+  border: 1px solid #6d6d6d;
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-divider {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {

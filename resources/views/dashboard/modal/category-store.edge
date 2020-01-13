@@ -1,0 +1,84 @@
+<!-- Modal - cadastro de categoria e subcategoria -->
+<div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cadastro de Categoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="ml-2" method="POST" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="nome" class=""><span class="text-danger">*</span> Nome</label>
+                                <input name="nome" id="nome" placeholder="Digite o nome da categoria..." type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="price" class=""> Icone</label>
+                                <input name="price" id="price" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-divider">
+                            Cadastrar Subcategoria
+                        </div>
+                        <div class="origin row" id="origin" style="width: 100%;">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="position-relative form-group">
+                                    <label for="subname" class=""> <span class="text-danger">*</span> Nome</label>
+                                    <input name="subname[]" id="subname" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="position-relative form-group">
+                                    <label for="subicone" class=""> Icone</label>
+                                    <input name="subicone[]" id="subicone" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destiny row" id="destiny" style="width: 100%;">
+                        </div>
+                        <div class="col-12 text-right">
+                            <div class="position-relative form-group">
+                                <div class="btn-group" role="group" aria-label="Exemplo básico">
+                                    <button type="button" class="btn btn-success" onclick="duplicarCampos();"><strong>
+                                        <i class="fas fa-plus"></i>
+                                    </strong></button>
+                                    <button type="button" class="btn btn-danger" onclick="removerCampos(this)"><strong>
+                                        <i class="fas fa-minus"></i>
+                                    </strong></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="control-form btn btn-success">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//PARA ADD OU REMOVER CAMPOS
+    function duplicarCampos(){
+        var clone = document.getElementById('origin').cloneNode(true);
+        var destino = document.getElementById('destiny');
+        destino.appendChild (clone);
+        var camposClonados = clone.getElementsByTagName('input');
+        for(i=0; i<camposClonados.length;i++){
+            camposClonados[i].value = '';
+        }
+    }
+
+    function removerCampos(id){
+        var node1 = document.getElementById('destiny');
+        node1.removeChild(node1.childNodes[0]);
+    }
+</script>

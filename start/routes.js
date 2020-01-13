@@ -40,6 +40,7 @@ Route.group(() => {
     Route.on('/dashboard').render('dashboard.dashboard').middleware(['auth'])
 })
 
+//Produtos
 Route.group(() => { 
 
     Route.get('/produtos', 'ProductController.index').as('product.index')
@@ -47,3 +48,14 @@ Route.group(() => {
 
 })
 
+//Categoria
+Route.group(() => { 
+    Route.get('/categorias', 'CategoryController.index').as('category.index')
+    Route.get('/categorias/cadastrar', 'CategoryController.create').as('category.create')
+})
+
+//Fornecedores
+Route.group(() => { 
+    Route.get('/fornecedores', 'ProviderController.index').as('provider.index')
+    Route.get('/fornecedores/cadastrar', 'ProviderController.create').as('provider.create')
+})

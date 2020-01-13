@@ -18,6 +18,7 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    return view.render('dashboard.category-index')
   }
 
   /**
@@ -30,6 +31,8 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async create ({ request, response, view }) {
+
+    return view.render('dashboard.category-store')
   }
 
   /**
