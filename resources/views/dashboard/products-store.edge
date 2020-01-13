@@ -9,6 +9,59 @@
     </div>
     <div class="card-body">
         <div id="dataTable_wrapper">
+        {{--  
+        name,
+        bar_code,
+        description,
+        price,
+        current_stock,
+        min_stock,
+        expiration_date,
+        unit,
+        where,
+        image,
+        status
+            --}}
+            <form class="ml-2" method="POST">
+                <div class="form-row">
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="bar_code" class=""><span class="text-danger">*</span> Código de Barro</label>
+                            <input name="bar_code" id="bar_code" placeholder="Digite seu email..." type="email" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="nome" class=""><span class="text-danger">*</span> Nome</label>
+                            <input name="nome" id="nome" placeholder="Digite seu email..." type="email" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="price" class=""><span class="text-danger">*</span> Preço</label>
+                            <input name="price" id="price" placeholder="Digite seu email..." type="email" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="current_stock" class=""><span class="text-danger">*</span> Estoque Atual</label>
+                            <input name="current_stock" id="current_stock" placeholder="Digite seu email..." type="email" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="min_stock" class=""><span class="text-danger">*</span> Estoque Mínimo</label>
+                            <input name="min_stock" id="min_stock" placeholder="Digite seu email..." type="email" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="expiration_date" class=""><span class="text-danger">*</span> Data de Validade</label>
+                            <input name="expiration_date" id="expiration_date" placeholder="Digite seu email..." type="date" class="form-control" value="">
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
