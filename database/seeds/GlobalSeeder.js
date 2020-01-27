@@ -32,6 +32,38 @@ class GlobalSeeder {
       created_at:datenow,
       updated_at:datenow,
     });
+
+    //Categoria
+    await Database.table('categories').insert({
+      name:'Geral',
+      name_slug:'geral',
+      thumb:'',
+      status:1,
+      created_at:datenow,
+      updated_at:datenow,
+    });
+
+    //Subcategoria
+    await Database.table('subcategories').insert({
+      category_id:1,
+      name:'Subgeral',
+      name_slug:'subgeral',
+      thumb:'',
+      status:1,
+      created_at:datenow,
+      updated_at:datenow,
+    });
+
+    //Fornecedores  
+    await Database.table('providers').insert({
+      name:'Geral',
+      phone:'',
+      email:'',
+      agent:'geral',
+      status:1,
+      created_at:datenow,
+      updated_at:datenow,
+    });
   }
 }
 

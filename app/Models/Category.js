@@ -4,6 +4,11 @@
 const Model = use('Model')
 
 class Category extends Model {
+
+//Relacoes
+  subcategory(){
+    return this.hasMany('App/Models/Subcategory')
+  }
 }
 
 module.exports = Category

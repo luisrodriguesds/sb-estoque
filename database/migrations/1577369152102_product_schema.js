@@ -34,7 +34,7 @@ class ProductSchema extends Schema {
       table.string('price', 254)
       table.integer('current_stock', 254)
       table.integer('min_stock', 254)
-      table.datetime('expiration_date', 254)
+      table.datetime('expiration_date')
       table.string('unit', 254)
       table.string('where', 254)
       table.string('image', 254)

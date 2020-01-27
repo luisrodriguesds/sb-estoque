@@ -44,6 +44,8 @@ Route.group(() => {
 Route.group(() => { 
 
     Route.get('/produtos', 'ProductController.index').as('product.index')
+    Route.get('/produtos/show-api/:code', 'ProductController.show_api')
+    Route.post('/produtos/cadastrar', 'ProductController.store').as('product.store').validator(['StoreProduct'])
     Route.get('/produtos/cadastrar', 'ProductController.create').as('product.create')
 
 })

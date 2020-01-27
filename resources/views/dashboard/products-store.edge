@@ -22,42 +22,54 @@
         image,
         status
             --}}
-            <form class="ml-2" method="POST" enctype="multipart/form-data">
+            <form class="ml-2" method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
+                {{ csrfField() }}
+                @if(old('notification'))
+                    <div class="alert alert-{{old('color')}}" role="alert">
+                    {{old('notification')}}
+                    </div>
+                @endif
                 <div class="form-row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="bar_code" class=""><span class="text-danger">*</span> Código de Barro</label>
-                            <input name="bar_code" id="bar_code" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control" value="">
+                            <input name="bar_code" id="bar_code" onchange="fullCodeBar(this)" onkeypress="fullCodeBar(this)" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control {{ hasErrorFor('bar_code') ? 'is-invalid' : '' }}" value="{{old('bar_code')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('bar_code'), hasErrorFor('bar_code'))}}
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="nome" class=""><span class="text-danger">*</span> Nome</label>
-                            <input name="nome" id="nome" placeholder="Digite o nome do produto..." type="text" class="form-control" value="">
+                            <label for="name" class=""><span class="text-danger">*</span> Nome</label>
+                            <input name="name" id="name" placeholder="Digite o nome do produto..." type="text" class="form-control {{ hasErrorFor('name') ? 'is-invalid' : '' }}" value="{{old('name')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('name'), hasErrorFor('name'))}}
+                            
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="price" class=""> Preço</label>
-                            <input name="price" id="price" placeholder="Digite o preço..." type="text" class="form-control" value="">
+                            <input name="price" id="price" placeholder="Digite o preço..." type="text" class="form-control" value="{{old('price')}}">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="current_stock" class=""><span class="text-danger">*</span> Estoque Atual</label>
-                            <input name="current_stock" id="current_stock" placeholder="Digite a quantidade deste produto..." type="number" class="form-control" value="">
+                            <input name="current_stock" id="current_stock" min="0" placeholder="Digite a quantidade deste produto..." type="number" class="form-control {{ hasErrorFor('current_stock') ? 'is-invalid' : '' }}" value="{{old('current_stock')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('current_stock'), hasErrorFor('current_stock'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="min_stock" class=""><span class="text-danger">*</span> Estoque Mínimo</label>
-                            <input name="min_stock" id="min_stock" placeholder="Digite a quantidade mínima que deve ter no estoque..." type="number" class="form-control" value="">
+                            <input name="min_stock" id="min_stock" min="0" placeholder="Digite a quantidade mínima que deve ter no estoque..." type="number" class="form-control {{ hasErrorFor('min_stock') ? 'is-invalid' : '' }}" value="{{old('min_stock')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('min_stock'), hasErrorFor('min_stock'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="min_stock" class=""><span class="text-danger">*</span> Unidade</label>
-                            <input name="min_stock" id="min_stock" placeholder="Digite a unidade. Ex: ml, L, cm..." type="text" class="form-control" value="">
+                            <label for="unit" class=""><span class="text-danger">*</span> Unidade</label>
+                            <input name="unit" id="unit" placeholder="Digite a unidade. Ex: ml, L, cm..." type="text" class="form-control {{ hasErrorFor('unit') ? 'is-invalid' : '' }}" value="{{old('unit')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('unit'), hasErrorFor('unit'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -80,13 +92,17 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="category" class=""> <span class="text-danger">*</span> Categoria</label>
-                           <select name="category" id="category" style="display: inline; width: 80%" class="form-control">
-                               <option value="">Selecione qual categoria esse produto pertence ...</option>
+                            <label for="category_id" class=""> <span class="text-danger">*</span> Categoria</label>
+                           <select name="category_id" id="category_id" onchange="getCategory(this)" style="display: inline; width: 80%" class="form-control">
+                               @each(category in categories)
+                                 <option value="{{category.id}}">{{category.name}}</option>
+                               @endeach
+                               {{-- 
                                <option value="1">Reagentes</option>
                                <option value="2">Limpeza</option>
                                <option value="3">Papel Alumínio</option>
                                <option value="4">Diversos</option>
+                               --}}
                            </select>
                            <button type="button" title="Add Categoria" class="btn btn-success" data-toggle="modal" data-target="#category-store">
                                 <i class="fas fa-plus"></i>
@@ -95,14 +111,17 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="subcategory" class=""> <span class="text-danger">*</span> Subcategoria</label>
-                           <select name="subcategory" id="subcategory" style="display: inline; width: 80%" class="form-control">
-                               <option value="">Selecione qual subcategoria esse produto pertence ...</option>
+                            <label for="subcategory_id" class=""> <span class="text-danger">*</span> Subcategoria</label>
+                           <select name="subcategory_id" id="subcategory_id" style="display: inline; width: 80%" class="form-control">
+                               @each(sub in subcategories)
+                                 <option value="{{sub.id}}">{{sub.name}}</option>
+                               @endeach
+                               {{-- 
                                <option value="1">Reagentes</option>
                                <option value="2">Limpeza</option>
                                <option value="3">Papel Alumínio</option>
                                <option value="4">Diversos</option>
-                               <option value="5">Add categoria +</option>
+                               --}}
                            </select>
                            <button type="button" title="Add Subcategoria" class="btn btn-success" data-toggle="modal" data-target="#subcategory-store">
                                 <i class="fas fa-plus"></i>
@@ -111,14 +130,11 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="provider" class=""> Fornecedor</label>
-                           <select name="provider" id="provider" style="display: inline; width: 80%" class="form-control">
-                               <option value="">Selecione o fornecedor do produto...</option>
-                               <option value="1">Reagentes</option>
-                               <option value="2">Limpeza</option>
-                               <option value="3">Papel Alumínio</option>
-                               <option value="4">Diversos</option>
-                               <option value="5">Add categoria +</option>
+                            <label for="provider_id" class=""> Fornecedor</label>
+                           <select name="provider_id" id="provider_id" style="display: inline; width: 80%" class="form-control">
+                               @each(provider in provideres)
+                                 <option value="{{provider.id}}">{{provider.name}}</option>
+                               @endeach
                            </select>
                            <button type="button" title="Add Subcategoria" class="btn btn-success" data-toggle="modal" data-target="#provider-store">
                                 <i class="fas fa-plus"></i>
@@ -137,6 +153,38 @@
         </div>
     </div>
 </div>
+{{-- 
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+--}}
+<script>
+    function getCategory(e){
+        console.log(e.value)
+    }
+    
+    function fullCodeBar(e){
+        //7891986042114
+        if (e.value.length >= 12) {
+            
+            var oReq = new XMLHttpRequest();
+                oReq.open("get", window.location.origin+"/produtos/show-api/"+e.value, true);
+                oReq.send();
+                oReq.onload = function(e) {
+                    var arr = JSON.parse(oReq.response)[0]; // não é responseText
+                    if (arr != null) {
+                        arr.name  ? document.querySelector('#name').value = arr.name : ''
+                        arr.price ? document.querySelector('#price').value = arr.price : ''
+                        arr.current_stock ? document.querySelector('#current_stock').value = arr.current_stock : ''
+                        arr.min_stock ? document.querySelector('#min_stock').value = arr.min_stock : ''
+                        arr.expiration_date ? document.querySelector('#expiration_date').value = arr.expiration_date : ''
+                        arr.unit ? document.querySelector('#unit').value = arr.unit : ''
+                        arr.where ? document.querySelector('#where').value = arr.where : ''
+                        arr.description ? document.querySelector('#description').value = arr.description : ''
+                        console.log(arr)
+                    }
+                }
+        }
+    }
+</script>
   
     @!component('dashboard/modal/category-store', id = 'category-store')
     @!component('dashboard/modal/subcategory-store', id = 'subcategory-store')

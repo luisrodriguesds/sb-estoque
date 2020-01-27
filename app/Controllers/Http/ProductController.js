@@ -4,6 +4,11 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Product     = use('App/Models/Product')
+const Category    = use('App/Models/Category')
+const Subcategory = use('App/Models/Subcategory')
+const Provider    = use('App/Models/Provider')
+
 /**
  * Resourceful controller for interacting with products
  */
@@ -18,8 +23,8 @@ class ProductController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    return view.render('dashboard.products-index')
-
+    const prod = await Product.query().with('provider').with('category').with('subcategory').fetch()
+    return view.render('dashboard.products-index', {prods:prod.toJSON()})
   }
 
   /**
@@ -32,7 +37,9 @@ class ProductController {
    * @param {View} ctx.view
    */
   async create ({ request, response, view }) {
-    return view.render('dashboard.products-store')
+    const categories  = await Category.query().with('subcategory').fetch()
+    const provider    = await Provider.query().fetch()
+    return view.render('dashboard.products-store', {categories:categories.toJSON(), subcategories:categories.toJSON()[0].subcategory, provideres:provider.toJSON()})
   }
 
   /**
@@ -43,7 +50,49 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+
+  async store ({ request, response, session }) {
+    const data = request.only([
+      'category_id',
+      'subcategory_id',
+      'name',
+      'provider_id',
+      'bar_code',
+      'description',
+      'price',
+      'current_stock',
+      'min_stock',
+      'expiration_date',
+      'unit',
+      'where',
+      'image',
+    ])
+    console.log(data)
+    //Bar code
+    const prod = await Product.findBy('bar_code',data.bar_code)
+    if (prod != null) {
+      try {
+        await Product.query().where('bar_code', data.bar_code).update(data)
+        session.flash({ notification: 'Produto atualizado com successo', color:'success' })
+        return response.redirect('/produtos/cadastrar')
+      } catch (error) {
+        
+      }
+      console.log(prod)
+    }
+    //image
+
+    //Store
+
+    try {
+      await Product.create(data)
+      session.flash({ notification: 'Produto cadastrado com sucesso!', color:'success' })
+      return response.redirect('/produtos/cadastrar')
+    } catch (error) {
+      console.log(error)
+      session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
+      return response.redirect('/produtos/cadastrar')
+    }
   }
 
   /**
@@ -56,6 +105,12 @@ class ProductController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+  }
+
+  async show_api ({ params, request, response, view }) {
+    const {code} = params
+    const prod = await Product.query().where('bar_code',code).with('provider').with('category').with('subcategory').fetch()
+    return prod;
   }
 
   /**
