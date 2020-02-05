@@ -143,10 +143,44 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
-                            <label for="provider" class=""> Descrição</label>
-                           <textarea name="description" id="description" class="form-control"></textarea>
+                            <label for="url" class=""> URL</label>
+                            <input name="url" id="url" placeholder="URL do produto" type="text" class="form-control" value="">
                         </div>
                     </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="material_type" class="">Tipo de Material</label>
+                            <select name="material_type" id="material_type" class="form-control">
+                                <option value="consumo">Consumo</option>
+                                <option value="permanente">Permanente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="belongsto" class=""> Pertence </label>
+                            <select name="belongsto" id="belongsto" class="form-control">
+                                <option value="LRX">LRX</option>
+                                <option value="UFC">UFC</option>
+                                <option value="FASTEF">FASTEF</option>
+                                <option value="Cnpq">Cnpq</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="number" class=""> N° do Patrimônio</label>
+                            <input name="number" id="number" placeholder="Digite o número do patrimônio" type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="description" class=""> Descrição</label>
+                           <textarea name="description" id="description" class="form-control" placeholder="Descreva quem é o responsável pelo produto."></textarea>
+                        </div>
+                    </div>
+                    
                     <button type="submit" class="control-form btn btn-success btn-block">Cadastrar</button>
                 </div>
             </form>
@@ -159,6 +193,25 @@
 <script>
     function getCategory(e){
         console.log(e.value)
+        ///categorias/show-api/:id
+        var request = new XMLHttpRequest()
+            request.open('get', window.location.origin+"/categorias/show-api/"+e.value, true)
+            request.send()
+            request.onload = function(e){
+                var arr = JSON.parse(request.response)[0]
+                var select = document.querySelector('#subcategory_id')
+                document.querySelectorAll("#subcategory_id option").forEach(function(e){
+                    e.remove()
+                }) //Apaga os que já tinham
+                for(var i=0; i < arr.subcategory.length; i++){
+                    var opt     = document.createElement('option')
+                    opt.text    = arr.subcategory[i].name
+                    opt.value   = arr.subcategory[i].id
+                    select.add(opt, null)
+                }
+                // console.log(arr)
+            }
+
     }
     
     function fullCodeBar(e){
@@ -178,6 +231,10 @@
                         arr.expiration_date ? document.querySelector('#expiration_date').value = arr.expiration_date : ''
                         arr.unit ? document.querySelector('#unit').value = arr.unit : ''
                         arr.where ? document.querySelector('#where').value = arr.where : ''
+                        arr.url ? document.querySelector('#url').value = arr.url : ''
+                        arr.number ? document.querySelector('#number').value = arr.number : ''
+                        arr.material_type ? document.querySelector('#material_type').value = arr.material_type : ''
+                        arr.belongsto ? document.querySelector('#belongsto').value = arr.belongsto : ''
                         arr.description ? document.querySelector('#description').value = arr.description : ''
                         console.log(arr)
                     }

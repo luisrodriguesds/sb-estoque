@@ -54,6 +54,8 @@ Route.group(() => {
 Route.group(() => { 
     Route.get('/categorias', 'CategoryController.index').as('category.index')
     Route.get('/categorias/cadastrar', 'CategoryController.create').as('category.create')
+    Route.post('/categorias/cadastrar', 'CategoryController.store').as('category.store').validator(['StoreCategory'])
+    Route.get('/categorias/show-api/:id', 'CategoryController.show_api').as('category.show-api')
 })
 
 //Fornecedores

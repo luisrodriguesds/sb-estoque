@@ -66,6 +66,10 @@ class ProductController {
       'unit',
       'where',
       'image',
+      'url',
+      'material_type',
+      'belongsto',
+      'number',
     ])
     console.log(data)
     //Bar code
@@ -76,14 +80,14 @@ class ProductController {
         session.flash({ notification: 'Produto atualizado com successo', color:'success' })
         return response.redirect('/produtos/cadastrar')
       } catch (error) {
-        
+        console.log(error)
+        session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
+        return response.redirect('/produtos/cadastrar')
       }
-      console.log(prod)
     }
     //image
 
     //Store
-
     try {
       await Product.create(data)
       session.flash({ notification: 'Produto cadastrado com sucesso!', color:'success' })
