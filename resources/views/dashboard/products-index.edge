@@ -15,16 +15,16 @@
                         <label>Categoria
                             <select name="category_id" id="category_id" onchange="getCategory(this)" class="custom-select custom-select-sm form-control form-control-sm">
                                 @each(cat in categories)
-                                    <option value="{{cat.id}}">{{cat.name}}</option>
+                                    <option {{request.all().category == cat.id ? 'selected' : ''}} value="{{cat.id}}">{{cat.name}}</option>
                                 @endeach
                             </select>
                         </label>
                     </div>
                     <div class="product_select">
                         <label>Subcategoria
-                            <select name="subcategory_id" id="subcategory_id" class="custom-select custom-select-sm form-control form-control-sm">
+                            <select name="subcategory_id" id="subcategory_id" onchange="getSubcategory(this)" class="custom-select custom-select-sm form-control form-control-sm">
                                 @each(sub in subcategories)
-                                    <option value="{{sub.id}}">{{sub.name}}</option>
+                                    <option {{request.all().subcategory == sub.id}} value="{{sub.id}}">{{sub.name}}</option>
                                 @endeach
                             </select>
                         </label>
@@ -110,27 +110,18 @@
     </div>
 </div>
 <script>
-function getCategory(e){
-    console.log(e.value)
-    ///categorias/show-api/:id
-    var request = new XMLHttpRequest()
-        request.open('get', window.location.origin+"/categorias/show-api/"+e.value, true)
-        request.send()
-        request.onload = function(e){
-            var arr = JSON.parse(request.response)[0]
-            var select = document.querySelector('#subcategory_id')
-            document.querySelectorAll("#subcategory_id option").forEach(function(e){
-                e.remove()
-            }) //Apaga os que já tinham
-            for(var i=0; i < arr.subcategory.length; i++){
-                var opt     = document.createElement('option')
-                opt.text    = arr.subcategory[i].name
-                opt.value   = arr.subcategory[i].id
-                select.add(opt, null)
-            }
-            // console.log(arr)
-        }
+    function getCategory(e){
+        var link = window.location.origin+window.location.pathname+'?category='+e.value;
+        window.location=link
+    }
+    
+    function getSubcategory(e){
+        if(window.location.search == ""){
 
-}
+        }else{
+            var link = window.location.origin+window.location.pathname+window.location.search+'&subcategory='+e.value;
+            window.location=link
+        }
+    }
 </script>
 @endsection
