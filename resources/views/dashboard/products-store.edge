@@ -93,7 +93,7 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="category_id" class=""> <span class="text-danger">*</span> Categoria</label>
-                           <select name="category_id" id="category_id" onchange="getCategory(this)" style="display: inline; width: 80%" class="form-control">
+                           <select name="category_id" id="category_id" onchange="getCategory(this)" class="form-control">
                                @each(category in categories)
                                  <option value="{{category.id}}">{{category.name}}</option>
                                @endeach
@@ -104,15 +104,12 @@
                                <option value="4">Diversos</option>
                                --}}
                            </select>
-                           <button type="button" title="Add Categoria" class="btn btn-success" data-toggle="modal" data-target="#category-store">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="subcategory_id" class=""> <span class="text-danger">*</span> Subcategoria</label>
-                           <select name="subcategory_id" id="subcategory_id" style="display: inline; width: 80%" class="form-control">
+                           <select name="subcategory_id" id="subcategory_id" class="form-control">
                                @each(sub in subcategories)
                                  <option value="{{sub.id}}">{{sub.name}}</option>
                                @endeach
@@ -123,22 +120,16 @@
                                <option value="4">Diversos</option>
                                --}}
                            </select>
-                           <button type="button" title="Add Subcategoria" class="btn btn-success" data-toggle="modal" data-target="#subcategory-store">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="provider_id" class=""> Fornecedor</label>
-                           <select name="provider_id" id="provider_id" style="display: inline; width: 80%" class="form-control">
+                           <select name="provider_id" id="provider_id" class="form-control">
                                @each(provider in provideres)
                                  <option value="{{provider.id}}">{{provider.name}}</option>
                                @endeach
                            </select>
-                           <button type="button" title="Add Subcategoria" class="btn btn-success" data-toggle="modal" data-target="#provider-store">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">

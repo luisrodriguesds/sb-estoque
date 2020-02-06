@@ -75,7 +75,7 @@
     function duplicarCampos(){
         var clone = document.getElementById('origin').cloneNode(true);
         var destino = document.getElementById('destiny');
-        destino.appendChild (clone);
+        destino.appendChild(clone);
         var camposClonados = clone.getElementsByTagName('input');
         for(i=0; i<camposClonados.length;i++){
             camposClonados[i].value = '';
@@ -86,5 +86,20 @@
         var node1 = document.getElementById('destiny');
         node1.removeChild(node1.childNodes[0]);
     }
+
+    function addField(e){
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            duplicarCampos()
+        }
+    }
+
+    //Para atualizar sempre a função dos elementos que estão em tela
+    setInterval(function(){
+        document.querySelectorAll('input[name=subcategory_name]').forEach(function(e){
+            e.addEventListener('keypress', addField)
+        })
+    }, 1000)
+
 </script>
 @endsection

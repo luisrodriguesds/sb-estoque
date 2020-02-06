@@ -13,21 +13,19 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="product_select">
                         <label>Categoria
-                            <select name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="10">Reagentes</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                            <select name="category_id" id="category_id" onchange="getCategory(this)" class="custom-select custom-select-sm form-control form-control-sm">
+                                @each(cat in categories)
+                                    <option value="{{cat.id}}">{{cat.name}}</option>
+                                @endeach
                             </select>
                         </label>
                     </div>
                     <div class="product_select">
                         <label>Subcategoria
-                            <select name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="10">Óxido de Ferro</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                            <select name="subcategory_id" id="subcategory_id" class="custom-select custom-select-sm form-control form-control-sm">
+                                @each(sub in subcategories)
+                                    <option value="{{sub.id}}">{{sub.name}}</option>
+                                @endeach
                             </select>
                         </label>
                     </div>
@@ -58,13 +56,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @each(prod in prods)
+                                @each(prod in prods.data)
                                     <tr>
-                                        <td>{{prod.name}}</td>
+                                        <td>
+                                            <a href="#" style="color:black">
+                                                <strong>{{prod.name}}</strong>
+                                            </a>   
+                                        </td>
                                         <td>{{prod.category.name}}</td>
                                         <td>{{prod.subcategory.name}}</td>
                                         <td>{{prod.current_stock}}</td>
-                                        <td>2008/11/28</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Exemplo básico">
+                                                <button type="button" class="btn btn-success">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-info">Editar</button>
+                                              </div>
+                                        </td>
                                     </tr>
                                 @endeach
                             </tbody>
@@ -74,11 +86,13 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-5">
-                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">12/12</div>
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                        ({{prods.data.length}}/{{prods.total}})
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-7">
                     <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                        <ul class="pagination text-right">
+                        <ul class="pagination" style="float: right">
                             <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
                             <li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
                             <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
@@ -88,10 +102,35 @@
                             <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
                             <li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
                         </ul>
+                        <div style="clear: both"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+function getCategory(e){
+    console.log(e.value)
+    ///categorias/show-api/:id
+    var request = new XMLHttpRequest()
+        request.open('get', window.location.origin+"/categorias/show-api/"+e.value, true)
+        request.send()
+        request.onload = function(e){
+            var arr = JSON.parse(request.response)[0]
+            var select = document.querySelector('#subcategory_id')
+            document.querySelectorAll("#subcategory_id option").forEach(function(e){
+                e.remove()
+            }) //Apaga os que já tinham
+            for(var i=0; i < arr.subcategory.length; i++){
+                var opt     = document.createElement('option')
+                opt.text    = arr.subcategory[i].name
+                opt.value   = arr.subcategory[i].id
+                select.add(opt, null)
+            }
+            // console.log(arr)
+        }
+
+}
+</script>
 @endsection

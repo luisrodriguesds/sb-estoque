@@ -19,7 +19,9 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    return view.render('dashboard.category-index')
+    const cat = await Category.query().with('subcategory').fetch()
+    console.log(cat.toJSON()[0].subcategory[0].name)
+    return view.render('dashboard.category-index', {categories:cat.toJSON()})
   }
 
   /**
@@ -51,8 +53,6 @@ class CategoryController {
     if (!Array.isArray(subcat.subcategory_name)) {
       subcat.subcategory_name = [subcat.subcategory_name]
     }
-
-    console.log(request.all())
 
     //Check
     const check = await Category.findBy('name_slug',slugify(cat.category_name, {lower:true}))

@@ -23,8 +23,10 @@ class ProductController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const prod = await Product.query().with('provider').with('category').with('subcategory').fetch()
-    return view.render('dashboard.products-index', {prods:prod.toJSON()})
+    const {page=null, perPage=null, search=null} = request.all()
+    const cat = await Category.query().with('subcategory').fetch()
+    const prod = await Product.query().with('provider').with('category').with('subcategory').paginate(1, 10)
+    return view.render('dashboard.products-index', {prods:prod.toJSON(), categories:cat.toJSON(), subcategories:cat.toJSON()[0].subcategory})
   }
 
   /**
