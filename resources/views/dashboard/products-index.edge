@@ -14,6 +14,7 @@
                     <div class="product_select">
                         <label>Categoria
                             <select name="category_id" id="category_id" onchange="getCategory(this)" class="custom-select custom-select-sm form-control form-control-sm">
+                                
                                 @each(cat in categories)
                                     <option {{request.all().category == cat.id ? 'selected' : ''}} value="{{cat.id}}">{{cat.name}}</option>
                                 @endeach
@@ -24,7 +25,7 @@
                         <label>Subcategoria
                             <select name="subcategory_id" id="subcategory_id" onchange="getSubcategory(this)" class="custom-select custom-select-sm form-control form-control-sm">
                                 @each(sub in subcategories)
-                                    <option {{request.all().subcategory == sub.id}} value="{{sub.id}}">{{sub.name}}</option>
+                                    <option {{request.all().subcategory == sub.id ? 'selected' : ''}} value="{{sub.id}}">{{sub.name}}</option>
                                 @endeach
                             </select>
                         </label>
@@ -34,7 +35,7 @@
                     <div id="dataTable_filter" class="dataTables_filter">
 
                         <label style="width: 50%;">Procurar:
-                            <input type="search" class="form-control form-control-sm" placeholder="Digite o código de barra, nome, categoria, subcategoria e etc ...">
+                            <input type="search" name="search" class="form-control form-control-sm" placeholder="Digite o código de barra, nome, categoria, subcategoria e etc ...">
                         </label>
                         <a href="/produtos/cadastrar" class="btn btn-success">
                             <i class="fas fa-plus"></i> Cadastrar Produto
@@ -68,13 +69,16 @@
                                         <td>{{prod.current_stock}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Exemplo básico">
-                                                <button type="button" class="btn btn-success">
+                                                <button type="button" class="btn btn-success" onclick="plusProd({{prod.id}})">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-danger">
+                                                <button type="button" class="btn btn-danger" onclick="minusProd({{prod.id}})">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-info">Editar</button>
+                                                <a href="/produtos/cadastrar?bar_code={{prod.bar_code}}" class="btn btn-info">Editar</a>
+                                                <button type="button" class="btn btn-danger">
+                                                    Excluir
+                                                </button>
                                               </div>
                                         </td>
                                     </tr>
@@ -90,21 +94,23 @@
                         ({{prods.data.length}}/{{prods.total}})
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-7">
-                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                        <ul class="pagination" style="float: right">
-                            <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                            <li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                            <li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                        </ul>
-                        <div style="clear: both"></div>
+                @if(prods.total >= prods.perPage)
+
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+                            <ul class="pagination" style="float: right">
+                                <li class="paginate_button page-item previous" id="example_previous"><a href="?page=1" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link"> <  </a></li>
+                                @each(number in range(prods.lastPage))
+                                    <li class="paginate_button page-item {{request.all().page == null && ($loop.index+1) == 1 ? 'active' : ''}} {{request.all().page == ($loop.index+1) ? 'active' : ''}}">
+                                        <a href="?page={{$loop.index+1}}" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link">{{$loop.index+1}}</a>
+                                    </li>
+                                @endeach
+                                <li class="paginate_button page-item next" id="example_next"><a href="?page={{prods.lastPage}}" aria-controls="example" data-dt-idx="7" tabindex="0" class="page-link"> > </a></li>
+                            </ul>
+                            <div style="clear: both"></div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -117,11 +123,29 @@
     
     function getSubcategory(e){
         if(window.location.search == ""){
-
+            var link = window.location.origin+window.location.pathname+'?category=1&subcategory='+e.value;
         }else{
-            var link = window.location.origin+window.location.pathname+window.location.search+'&subcategory='+e.value;
-            window.location=link
+            var params = {}
+            location.search.substr(1).split("&").forEach(function(item) {params[item.split("=")[0]] = item.split("=")[1]})
+            window.location=window.location.origin+window.location.pathname+'?category='+params.category+'&subcategory='+e.value;
         }
     }
+
+    function search(e){
+        console.log(e)
+        if (e.keyCode == 13) {
+            window.location=window.location.origin+window.location.pathname+'?search='+e.srcElement.value
+        }
+    }
+
+    function plusProd(id){
+        window.location=window.location.origin+window.location.pathname+'/plus/'+id
+    }
+
+    function minusProd(id){
+        window.location=window.location.origin+window.location.pathname+'/minus/'+id
+    }
+
+    document.querySelector("input[name=search]").addEventListener('keypress', search)
 </script>
 @endsection

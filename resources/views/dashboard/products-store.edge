@@ -33,7 +33,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="bar_code" class=""><span class="text-danger">*</span> Código de Barro</label>
-                            <input name="bar_code" id="bar_code" onchange="fullCodeBar(this)" onkeypress="fullCodeBar(this)" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control {{ hasErrorFor('bar_code') ? 'is-invalid' : '' }}" value="{{old('bar_code')}}">
+                            <input name="bar_code" id="bar_code" onkeypress="fullCodeBar(this)" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control {{ hasErrorFor('bar_code') ? 'is-invalid' : '' }}" value="{{request.all().bar_code ? request.all().bar_code : old('bar_code')}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('bar_code'), hasErrorFor('bar_code'))}}
                         </div>
                     </div>
@@ -183,7 +183,6 @@
 --}}
 <script>
     function getCategory(e){
-        console.log(e.value)
         ///categorias/show-api/:id
         var request = new XMLHttpRequest()
             request.open('get', window.location.origin+"/categorias/show-api/"+e.value, true)
@@ -207,8 +206,7 @@
     
     function fullCodeBar(e){
         //7891986042114
-        if (e.value.length >= 12) {
-            
+        //if (e.value.length >= 12) {
             var oReq = new XMLHttpRequest();
                 oReq.open("get", window.location.origin+"/produtos/show-api/"+e.value, true);
                 oReq.send();
@@ -230,7 +228,14 @@
                         console.log(arr)
                     }
                 }
-        }
+        //}
+    }
+
+    var params = {}
+    location.search.substr(1).split("&").forEach(function(item) {params[item.split("=")[0]] = item.split("=")[1]})
+    if (params.bar_code != undefined) {
+        var e = document.querySelector("input[name=bar_code]")
+        fullCodeBar(e)
     }
 </script>
   

@@ -23,16 +23,26 @@ class ProductController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const {page=1, perPage=10, search=null, category=null, subcategory=null} = request.all()
+    const {page=1, perPage=50, search=null, category=null, subcategory=null} = request.all()
     const cat = await Category.query().fetch()
     let prod, sub
-    if (category == null) {
-      sub   = await Subcategory.query().where('category_id', 1).fetch()
-      prod  = await Product.query().with('provider').with('category').with('subcategory').paginate(page, perPage)      
+    
+    if (category == null || category == 'all') {
+      sub = await Subcategory.query().where('category_id', 1).fetch()
+      prod= await Product.query().with('provider').with('category').with('subcategory').paginate(page, perPage)      
     }else{
-      sub   = await Subcategory.query().where('category_id', category).fetch()
-      prod = await Product.query().where('category_id', category).with('provider').with('category').with('subcategory').paginate(page, perPage)
+      sub = await Subcategory.query().where('category_id', category).fetch()
+      if (subcategory == null) {
+        prod = await Product.query().where('category_id', category).with('provider').with('category').with('subcategory').paginate(page, perPage)
+      }else{
+        prod = await Product.query().where('category_id', category).andWhere('subcategory_id', subcategory).with('provider').with('category').with('subcategory').paginate(page, perPage)
+      }
     }
+
+    if (search != null) {
+      prod= await Product.query().where('name', 'like', '%'+search+'%').with('provider').with('category').with('subcategory').paginate(page, perPage)         
+    }
+
     return view.render('dashboard.products-index', {prods:prod.toJSON(), categories:cat.toJSON(), subcategories:sub.toJSON()})
   }
 
@@ -49,6 +59,31 @@ class ProductController {
     const categories  = await Category.query().with('subcategory').fetch()
     const provider    = await Provider.query().fetch()
     return view.render('dashboard.products-store', {categories:categories.toJSON(), subcategories:categories.toJSON()[0].subcategory, provideres:provider.toJSON()})
+  }
+
+  async change ({ params, request, response, session }) {
+    const {type, id} = params
+    const prod = await Product.findBy('id',id)
+    try {
+      switch (type) {
+        case 'plus':
+          await Product.query().where('id', id).update({current_stock: prod.toJSON().current_stock+1})
+        break;
+        default:
+          if (prod.toJSON().current_stock != 0) {
+            await Product.query().where('id', id).update({current_stock: prod.toJSON().current_stock-1})
+          }        
+        break;
+      }
+
+      session.flash({ notification: 'O Produto '+prod.toJSON().name+' foi atualizado com sucesso', color:'success' })
+      return response.redirect('/produtos')
+    } catch (error) {
+      console.log(error)
+      session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
+      return response.redirect('/produtos')
+    }
+    
   }
 
   /**
@@ -80,7 +115,7 @@ class ProductController {
       'belongsto',
       'number',
     ])
-    console.log(data)
+
     //Bar code
     const prod = await Product.findBy('bar_code',data.bar_code)
     if (prod != null) {
@@ -123,7 +158,8 @@ class ProductController {
   async show_api ({ params, request, response, view }) {
     const {code} = params
     const prod = await Product.query().where('bar_code',code).with('provider').with('category').with('subcategory').fetch()
-    return prod;
+    console.log(prod.toJSON())
+    return prod
   }
 
   /**
