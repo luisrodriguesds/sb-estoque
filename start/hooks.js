@@ -6,13 +6,13 @@ hooks.after.providersBooted(() => {
     const Env = use('Env')
     const View = use('View')
   
-    // Exception.handle('InvalidSessionException', async (error, {response}) =>{
-    //     return response.redirect('/login')
-    // })
+    Exception.handle('InvalidSessionException', async (error, {response}) =>{
+        return response.redirect('/login')
+    })
 
-    // Exception.handle('HttpException', async (error, {response}) =>{
-    //     return response.redirect('/dashboard')
-    // })
+    Exception.handle('HttpException', async (error, {response}) =>{
+        return response.redirect('/dashboard')
+    })
 
     View.global('URLBASE', () => {
         return Env.get('APP_URL_PROD')
