@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         <div id="dataTable_wrapper">
-            <form class="ml-2" method="POST" action="{{route('category.store')}}" enctype="multipart/form-data">
+            <form class="ml-2" method="POST" action="{{URLBASE()}}{{route('category.store')}}" enctype="multipart/form-data">
                 {{ csrfField() }}
                 @if(old('notification'))
                     <div class="alert alert-{{old('color')}}" role="alert">

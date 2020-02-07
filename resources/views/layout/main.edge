@@ -82,7 +82,7 @@
         </div>
         <div class="modal-body">Selecione "Sair" abaixo para encerrar sua sessão.</div>
         <div class="modal-footer">
-            <form action="{{route('user.logout')}}" method="POST">
+            <form action="{{URLBASE()}}{{route('user.logout')}}" method="POST">
                 {{csrfField()}}
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                 <button class="btn btn-danger" type="submit">Sair</button>
