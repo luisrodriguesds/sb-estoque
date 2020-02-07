@@ -10,7 +10,7 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Crie uma conta já!</h1>
             </div>
-            <form class="user store-user" method="POST" action="{{URLBASE()+route('user.store')}}">
+            <form class="user store-user" method="POST" action="{{route('user.store')}}">
                 {{csrfField()}}
               <div class="form-group">
                   <input type="text" class="form-control form-control-user {{ hasErrorFor('name') ? 'is-invalid' : '' }}" value="{{old('name')}}" name="name" placeholder="Nome completo">
