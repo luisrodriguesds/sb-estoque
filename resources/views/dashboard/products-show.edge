@@ -1,8 +1,8 @@
 @layout('layout.main') 
 @section('dashboard')
 
-<h1 class="h3 mb-2 text-gray-800">Cadastrar Produto</h1>
-<p class="mb-4">Página para cadastro de mais produtos</p>
+<h1 class="h3 mb-2 text-gray-800">Ver Produto</h1>
+<p class="mb-4">Página para ver histórico do produtos</p>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Produtos</h6>
@@ -20,14 +20,14 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="bar_code" class=""><span class="text-danger">*</span> Código de Barro</label>
-                            <input name="bar_code" id="bar_code" onkeypress="fullCodeBar(this)" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control {{ hasErrorFor('bar_code') ? 'is-invalid' : '' }}" value="{{request.all().bar_code ? request.all().bar_code : old('bar_code')}}">
+                            <input disabled name="bar_code" id="bar_code" onkeypress="fullCodeBar(this)" placeholder="Digite o Código de Barras..." type="text" autofocus class="form-control {{ hasErrorFor('bar_code') ? 'is-invalid' : '' }}" value="{{prod.bar_code}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('bar_code'), hasErrorFor('bar_code'))}}
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="name" class=""><span class="text-danger">*</span> Nome</label>
-                            <input name="name" id="name" placeholder="Digite o nome do produto..." type="text" class="form-control {{ hasErrorFor('name') ? 'is-invalid' : '' }}" value="{{old('name')}}">
+                            <input disabled name="name" id="name" placeholder="Digite o nome do produto..." type="text" class="form-control {{ hasErrorFor('name') ? 'is-invalid' : '' }}" value="{{prod.name}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('name'), hasErrorFor('name'))}}
                             
                         </div>
@@ -35,55 +35,53 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="price" class=""> Preço</label>
-                            <input name="price" id="price" placeholder="Digite o preço..." type="text" class="form-control" value="{{old('price')}}">
+                            <input disabled name="price" id="price" placeholder="Digite o preço..." type="text" class="form-control" value="{{prod.price ? prod.price : ''}}">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="current_stock" class=""><span class="text-danger">*</span> Estoque Atual</label>
-                            <input name="current_stock" id="current_stock" min="0" placeholder="Digite a quantidade deste produto..." type="number" class="form-control {{ hasErrorFor('current_stock') ? 'is-invalid' : '' }}" value="{{old('current_stock')}}">
+                            <input disabled name="current_stock" id="current_stock" min="0" placeholder="Digite a quantidade deste produto..." type="number" class="form-control {{ hasErrorFor('current_stock') ? 'is-invalid' : '' }}" value="{{prod.current_stock ? prod.current_stock : ''}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('current_stock'), hasErrorFor('current_stock'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="min_stock" class=""><span class="text-danger">*</span> Estoque Mínimo</label>
-                            <input name="min_stock" id="min_stock" min="0" placeholder="Digite a quantidade mínima que deve ter no estoque..." type="number" class="form-control {{ hasErrorFor('min_stock') ? 'is-invalid' : '' }}" value="{{old('min_stock')}}">
+                            <input disabled name="min_stock" id="min_stock" min="0" placeholder="Digite a quantidade mínima que deve ter no estoque..." type="number" class="form-control {{ hasErrorFor('min_stock') ? 'is-invalid' : '' }}" value="{{prod.min_stock ? prod.min_stock : ''}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('min_stock'), hasErrorFor('min_stock'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="unit" class=""><span class="text-danger">*</span> Unidade</label>
-                            <input name="unit" id="unit" placeholder="Digite a unidade. Ex: ml, L, cm..." type="text" class="form-control {{ hasErrorFor('unit') ? 'is-invalid' : '' }}" value="{{old('unit')}}">
+                            <input disabled name="unit" id="unit" placeholder="Digite a unidade. Ex: ml, L, cm..." type="text" class="form-control {{ hasErrorFor('unit') ? 'is-invalid' : '' }}" value="{{prod.unit ? prod.unit : ''}}">
                             {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('unit'), hasErrorFor('unit'))}}
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="expiration_date" class="">Data de Validade</label>
-                            <input name="expiration_date" id="expiration_date" type="date" class="form-control" value="">
+                            <input disabled name="expiration_date" id="expiration_date" type="date" class="form-control" value="{{prod.expiration_date ? prod.expiration_date : ''}}">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="image" class="">Imagem do produto</label>
-                            <input name="image" id="image" type="file" value="">
+                            <input disabled name="image" id="image" type="file" value="">
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="where" class="">Local</label>
-                            <input name="where" id="where" placeholder="Aonde este produto será armazenado?" type="text" class="form-control" value="">
+                            <input disabled name="where" id="where" placeholder="Aonde este produto será armazenado?" type="text" class="form-control" value="{{prod.where ? prod.where : ''}}">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="category_id" class=""> <span class="text-danger">*</span> Categoria</label>
-                           <select name="category_id" id="category_id" onchange="getCategory(this)" class="form-control">
-                               @each(category in categories)
-                                 <option value="{{category.id}}">{{category.name}}</option>
-                               @endeach
+                           <select name="category_id" disabled id="category_id" onchange="getCategory(this)" class="form-control">
+                                 <option value="{{prod.category.id}}">{{prod.category.name}}</option>
                                {{-- 
                                <option value="1">Reagentes</option>
                                <option value="2">Limpeza</option>
@@ -96,10 +94,9 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="subcategory_id" class=""> <span class="text-danger">*</span> Subcategoria</label>
-                           <select name="subcategory_id" id="subcategory_id" class="form-control">
-                               @each(sub in subcategories)
-                                 <option value="{{sub.id}}">{{sub.name}}</option>
-                               @endeach
+                           <select name="subcategory_id" disabled id="subcategory_id" class="form-control">
+                                <option value="{{prod.subcategory.id}}">{{prod.subcategory.name}}</option>
+                              
                                {{-- 
                                <option value="1">Reagentes</option>
                                <option value="2">Limpeza</option>
@@ -112,57 +109,74 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="provider_id" class=""> Fornecedor</label>
-                           <select name="provider_id" id="provider_id" class="form-control">
-                               @each(provider in provideres)
-                                 <option value="{{provider.id}}">{{provider.name}}</option>
-                               @endeach
+                           <select name="provider_id" disabled id="provider_id" class="form-control">
+                                <option value="{{prod.provider.id}}">{{prod.provider.name}}</option>
                            </select>
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="url" class=""> URL</label>
-                            <input name="url" id="url" placeholder="URL do produto" type="text" class="form-control" value="">
+                            <input disabled name="url" id="url" placeholder="URL do produto" type="text" class="form-control" value="{{prod.url ? prod.url : ''}}">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="material_type" class="">Tipo de Material</label>
-                            <select name="material_type" id="material_type" class="form-control">
-                                <option value="consumo">Consumo</option>
-                                <option value="permanente">Permanente</option>
+                            <select name="material_type" disabled id="material_type" class="form-control">
+                                <option value="consumo">{{prod.material_type}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="belongsto" class=""> Pertence </label>
-                            <select name="belongsto" id="belongsto" class="form-control">
-                                <option value="LRX">LRX</option>
-                                <option value="UFC">UFC</option>
-                                <option value="FASTEF">FASTEF</option>
-                                <option value="Cnpq">Cnpq</option>
-                                <option value="FCPC">FCPC</option>
-                                <option value="Outros">Outros</option>
+                            <select name="belongsto" disabled id="belongsto" class="form-control">
+                                <option value="LRX">{{prod.belongsto}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="number" class=""> N° do Patrimônio</label>
-                            <input name="number" id="number" placeholder="Digite o número do patrimônio" type="text" class="form-control" value="">
+                            <input disabled name="number" id="number" placeholder="Digite o número do patrimônio" type="text" class="form-control" value="{{prod.number ? prod.number : ''}}">
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="position-relative form-group">
                             <label for="description" class=""> Descrição</label>
-                           <textarea name="description" id="description" class="form-control" placeholder="Descreva quem é o responsável pelo produto."></textarea>
+                           <textarea name="description" id="description" class="form-control" disabled placeholder="Descreva quem é o responsável pelo produto.">{{prod.description}}</textarea>
                         </div>
                     </div>
-                    
-                    <button type="submit" class="control-form btn btn-success btn-block">Cadastrar</button>
+                    <a href="{{URLBASE()+'/produtos/cadastrar?bar_code='+prod.bar_code}}" class="control-form btn btn-success btn-block">Ir para modo Edição</a>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Histório do produto</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper">
+            <table class="table table-bordered table-striped" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Alteração</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Luis Rdorigues</td>
+                        <td>Alterou número de estoque de 1 para 2 em </td>
+                        <td>07/02/2020 14:31</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

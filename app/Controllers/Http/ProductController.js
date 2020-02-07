@@ -153,12 +153,20 @@ class ProductController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const prod = await Product.findBy('id', params.id)
+      await prod.load('category')
+      await prod.load('subcategory')
+      await prod.load('provider')
+      return view.render('dashboard.products-show', {prod:prod.toJSON()})
+    } catch (error) {
+      return response.redirect('/produtos/cadastrar')
+    }
   }
 
   async show_api ({ params, request, response, view }) {
     const {code} = params
     const prod = await Product.query().where('bar_code',code).with('provider').with('category').with('subcategory').fetch()
-    console.log(prod.toJSON())
     return prod
   }
 
@@ -193,8 +201,18 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy ({ params, request, response, session }) {
+    try {
+      await Product.query().where('id', params.id).delete()
+      session.flash({ notification: 'Produto excluir com sucesso', color:'success' })
+      return response.redirect('/produtos')
+    } catch (error) {
+      console.log(error)
+      session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
+      return response.redirect('/produtos')
+    }
+
+  } 
 }
 
 module.exports = ProductController

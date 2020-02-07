@@ -1,0 +1,105 @@
+@layout('layout.main') 
+@section('dashboard')
+
+<h1 class="h3 mb-2 text-gray-800">Cadastrar Categoria</h1>
+<p class="mb-4">Página para cadastro de mais categoria</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Categoria</h6>
+    </div>
+    <div class="card-body">
+        <div id="dataTable_wrapper">
+            <form class="ml-2" method="POST" action="{{route('category.store')}}" enctype="multipart/form-data">
+                {{ csrfField() }}
+                @if(old('notification'))
+                    <div class="alert alert-{{old('color')}}" role="alert">
+                    {{old('notification')}}
+                    </div>
+                @endif
+                <div class="form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="category_name" class=""><span class="text-danger">*</span> Nome</label>
+                            <input name="category_name" id="category_name" placeholder="Digite o nome da categoria..." type="text" class="form-control {{ hasErrorFor('category_name') ? 'is-invalid' : '' }}" value="{{old('category_name')}}">
+                            {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('category_name'), hasErrorFor('category_name'))}}
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="position-relative form-group">
+                            <label for="category_thumb" class=""> Icone</label>
+                            <input name="category_thumb" id="category_thumb" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="form-divider">
+                        Cadastrar Subcategoria
+                    </div>
+                    <div class="origin row" id="origin" style="width: 100%;">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="subcategory_name" class=""> <span class="text-danger">*</span> Nome</label>
+                                <input name="subcategory_name" placeholder="Digite o nome desta subcategoria..." type="text" class="form-control {{ hasErrorFor('subcategory_name') ? 'is-invalid' : '' }}" value="{{old('subcategory_name')}}">
+                                {{elIf('<div class="invalid-feedback">$self</div>', getErrorFor('subcategory_name'), hasErrorFor('subcategory_name'))}}
+
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="position-relative form-group">
+                                <label for="subcategory_thumb" class=""> Icone</label>
+                                <input name="subcategory_thumb" placeholder="Digite o ícone..." type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destiny" id="destiny" style="width: 100%;">
+                    </div>
+                    <div class="col-12 text-right">
+                        <div class="position-relative form-group">
+                            <div class="btn-group" role="group" aria-label="Exemplo básico">
+                                <button type="button" class="btn btn-success" onclick="duplicarCampos();"><strong>
+                                    <i class="fas fa-plus"></i>
+                                </strong></button>
+                                <button type="button" class="btn btn-danger" onclick="removerCampos(this)"><strong>
+                                    <i class="fas fa-minus"></i>
+                                </strong></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="control-form btn btn-success btn-block">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//PARA ADD OU REMOVER CAMPOS
+    function duplicarCampos(){
+        var clone = document.getElementById('origin').cloneNode(true);
+        var destino = document.getElementById('destiny');
+        destino.appendChild(clone);
+        var camposClonados = clone.getElementsByTagName('input');
+        for(i=0; i<camposClonados.length;i++){
+            camposClonados[i].value = '';
+        }
+    }
+
+    function removerCampos(id){
+        var node1 = document.getElementById('destiny');
+        node1.removeChild(node1.childNodes[0]);
+    }
+
+    function addField(e){
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            duplicarCampos()
+        }
+    }
+
+    //Para atualizar sempre a função dos elementos que estão em tela
+    setInterval(function(){
+        document.querySelectorAll('input[name=subcategory_name]').forEach(function(e){
+            e.addEventListener('keypress', addField)
+        })
+    }, 1000)
+
+</script>
+@endsection

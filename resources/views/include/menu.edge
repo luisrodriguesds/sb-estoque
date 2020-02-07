@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{URLBASE()+'/dashboard'}}">
       
       <div class="sidebar-brand-text mx-3">SB Estoque - LRX </div>
     </a>
@@ -11,7 +11,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="{{URLBASE()+'/dashboard'}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -33,8 +33,8 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Opções</h6>
-          <a class="collapse-item" href="/usuarios/cadastrar">Cadastrar Usuários</a>
-          <a class="collapse-item" href="/usuarios">Todos os Usuários</a>
+          <a class="collapse-item" href="{{URLBASE()}}/usuarios/cadastrar">Cadastrar Usuários</a>
+          <a class="collapse-item" href="{{URLBASE()}}/usuarios">Todos os Usuários</a>
         </div>
       </div>
     </li>
@@ -47,8 +47,8 @@
       <div id="collapseFornecedor" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Opções</h6>
-          <a class="collapse-item" href="/fornecedores/cadastrar">Cadastrar Fornecedores</a>
-          <a class="collapse-item" href="/fornecedores">Todos os Fornecedores</a>
+          <a class="collapse-item" href="{{URLBASE()}}/fornecedores/cadastrar">Cadastrar Fornecedores</a>
+          <a class="collapse-item" href="{{URLBASE()}}/fornecedores">Todos os Fornecedores</a>
         </div>
       </div>
     </li>
@@ -61,8 +61,8 @@
       <div id="collapseCategoria" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Opções</h6>
-          <a class="collapse-item" href="/categorias/cadastrar">Cadastrar Categoria</a>
-          <a class="collapse-item" href="/categorias">Todos as Categorias</a>
+          <a class="collapse-item" href="{{URLBASE()}}/categorias/cadastrar">Cadastrar Categoria</a>
+          <a class="collapse-item" href="{{URLBASE()}}/categorias">Todos as Categorias</a>
         </div>
       </div>
     </li>
@@ -76,8 +76,8 @@
       <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Opções</h6>
-          <a class="collapse-item" href="/produtos/cadastrar">Cadastrar Produto</a>
-          <a class="collapse-item" href="/produtos">Todos os Produtos</a>
+          <a class="collapse-item" href="{{URLBASE()}}/produtos/cadastrar">Cadastrar Produto</a>
+          <a class="collapse-item" href="{{URLBASE()}}/produtos">Todos os Produtos</a>
       </div>
     </li>
 

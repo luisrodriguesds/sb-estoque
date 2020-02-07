@@ -20,7 +20,6 @@ class CategoryController {
    */
   async index ({ request, response, view }) {
     const cat = await Category.query().with('subcategory').fetch()
-    console.log(cat.toJSON()[0].subcategory[0].name)
     return view.render('dashboard.category-index', {categories:cat.toJSON()})
   }
 
@@ -114,6 +113,14 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async edit ({ params, request, response, view }) {
+    try {
+      const cat = await Category.findBy('id', params.id)
+      await cat.load('subcategory')
+      return view.render('dashboard.category-edit', {cat:cat.toJSON()})
+    } catch (error) {
+      console.log(error)
+      return response.redirect('/categorias')
+    }
   }
 
   /**

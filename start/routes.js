@@ -47,14 +47,16 @@ Route.group(() => {
     Route.get('/produtos/show-api/:code', 'ProductController.show_api')
     Route.post('/produtos/cadastrar', 'ProductController.store').as('product.store').validator(['StoreProduct'])
     Route.get('/produtos/cadastrar', 'ProductController.create').as('product.create')
-    Route.get('/produtos/:type/:id', 'ProductController.change')
-
+    Route.get('/produtos/excluir/:id', 'ProductController.destroy')
+    Route.get('/produtos/ver/:id', 'ProductController.show')
+    Route.get('/produtos/:type/:id', 'ProductController.change')    
 })
 
 //Categoria
 Route.group(() => { 
     Route.get('/categorias', 'CategoryController.index').as('category.index')
     Route.get('/categorias/cadastrar', 'CategoryController.create').as('category.create')
+    Route.get('/categorias/editar/:id', 'CategoryController.edit')
     Route.post('/categorias/cadastrar', 'CategoryController.store').as('category.store').validator(['StoreCategory'])
     Route.get('/categorias/show-api/:id', 'CategoryController.show_api').as('category.show-api')
 })
