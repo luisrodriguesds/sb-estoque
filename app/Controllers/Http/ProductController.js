@@ -8,6 +8,7 @@ const Product     = use('App/Models/Product')
 const Category    = use('App/Models/Category')
 const Subcategory = use('App/Models/Subcategory')
 const Provider    = use('App/Models/Provider')
+const slash       = use('Env').get('APP_URL_SLASH')
 
 /**
  * Resourceful controller for interacting with products
@@ -77,11 +78,11 @@ class ProductController {
       }
 
       session.flash({ notification: 'O Produto '+prod.toJSON().name+' foi atualizado com sucesso', color:'success' })
-      return response.redirect('/produtos')
+      return response.redirect(slash+'/produtos')
     } catch (error) {
       console.log(error)
       session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
-      return response.redirect('/produtos')
+      return response.redirect(slash+'/produtos')
     }
     
   }
@@ -122,11 +123,11 @@ class ProductController {
       try {
         await Product.query().where('bar_code', data.bar_code).update(data)
         session.flash({ notification: 'Produto atualizado com successo', color:'success' })
-        return response.redirect('/produtos/cadastrar')
+        return response.redirect(slash+'/produtos/cadastrar')
       } catch (error) {
         console.log(error)
         session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
-        return response.redirect('/produtos/cadastrar')
+        return response.redirect(slash+'/produtos/cadastrar')
       }
     }
     //image
@@ -135,11 +136,11 @@ class ProductController {
     try {
       await Product.create(data)
       session.flash({ notification: 'Produto cadastrado com sucesso!', color:'success' })
-      return response.redirect('/produtos/cadastrar')
+      return response.redirect(slash+'/produtos/cadastrar')
     } catch (error) {
       console.log(error)
       session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
-      return response.redirect('/produtos/cadastrar')
+      return response.redirect(slash+'/produtos/cadastrar')
     }
   }
 
@@ -160,7 +161,7 @@ class ProductController {
       await prod.load('provider')
       return view.render('dashboard.products-show', {prod:prod.toJSON()})
     } catch (error) {
-      return response.redirect('/produtos/cadastrar')
+      return response.redirect(slash+'/produtos/cadastrar')
     }
   }
 
@@ -205,11 +206,11 @@ class ProductController {
     try {
       await Product.query().where('id', params.id).delete()
       session.flash({ notification: 'Produto excluir com sucesso', color:'success' })
-      return response.redirect('/produtos')
+      return response.redirect(slash+'/produtos')
     } catch (error) {
       console.log(error)
       session.flash({ notification: 'Algo inesperado aconteceu, por favor entre em contato com o suporte.', color:'danger' })
-      return response.redirect('/produtos')
+      return response.redirect(slash+'/produtos')
     }
 
   } 

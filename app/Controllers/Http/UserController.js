@@ -5,7 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const User = use('App/Models/User')
-
+const slash   = use('Env').get('APP_URL_SLASH')
 /**
  * Resourceful controller for interacting with users
  */
@@ -20,7 +20,6 @@ class UserController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-
     return view.render('dashboard.users-index')
   }
 
@@ -34,6 +33,7 @@ class UserController {
    * @param {View} ctx.view
    */
   async create ({ request, response, view }) {
+    
     return view.render('register')
   }
 
@@ -61,11 +61,11 @@ class UserController {
       //Mail para o professor Sasaki Liberar a entrada no sistema
 
       session.flash({ notification: 'Conta criada com sucesso! Verifique sua caixa de email!' })
-      return response.redirect('/login');
+      return response.redirect(slash+'/login');
       
     } catch (error) {
       session.flash({ notification: 'Algo inesperado acontaceu! Por favor entre em contato com o laboratório.' })
-      return response.redirect('/login');
+      return response.redirect(slash+'/login');
     }
 
   }
@@ -131,19 +131,19 @@ class UserController {
     const user = await User.findBy('email',email)
     if (user.toJSON().status !== 1) {
       session.flash({ notification: `Você não pode acessar o sistema pois seu status é ${(user.toJSON().status == 2 ? 'Pendênte' : 'Inativo')}` })
-      return response.redirect('/login');
+      return response.redirect(slash+'/login');
     }
 
     await auth.attempt(request.input('email'), request.input('password'))
 
     session.flash({ notification: 'Login efetuado com sucesso!' })
-    return response.redirect('/dashboard');
+    return response.redirect(slash+'/dashboard');
   }
 
   async logout({request, auth, response}){
     await auth.logout();
 
-    return response.redirect('/login')
+    return response.redirect(slash+'/login')
   }
 
 }

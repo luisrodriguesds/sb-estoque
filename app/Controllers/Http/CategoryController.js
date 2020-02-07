@@ -5,6 +5,8 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const Category    = use('App/Models/Category')
 const Subcategory = use('App/Models/Subcategory')
+const slash   = use('Env').get('APP_URL_SLASH')
+
 /**
  * Resourceful controller for interacting with categories
  */
@@ -57,14 +59,14 @@ class CategoryController {
     const check = await Category.findBy('name_slug',slugify(cat.category_name, {lower:true}))
     if (check != null) {
       session.flash({ notification: 'A Categoria '+cat.category_name+' já existe na base de dados.', color:'danger' })
-      return response.redirect('/categorias/cadastrar')
+      return response.redirect(slash+'/categorias/cadastrar')
     }
     
     //Subcategorias não repetidas 
     //Check se existe alguma opção igual
     if (hasDuplicates(subcat.subcategory_name)) {
       session.flash({ notification: 'Opção duplicada.', color:'danger' })
-      return response.redirect('/categorias/cadastrar')
+      return response.redirect(slash+'/categorias/cadastrar')
     }
 
     try {
@@ -74,11 +76,11 @@ class CategoryController {
       }))
 
       session.flash({ notification: 'Categoria e Subcategorias cadastradas com sucesso', color:'success' })
-      return response.redirect('/categorias/cadastrar')
+      return response.redirect(slash+'/categorias/cadastrar')
     } catch (error) {
       console.log(error)
       session.flash({ notification: 'Algo inesperado aconteceu', color:'danger' })
-      return response.redirect('/categorias/cadastrar')
+      return response.redirect(slash+'/categorias/cadastrar')
     }
    
     function hasDuplicates(array) {
@@ -119,7 +121,7 @@ class CategoryController {
       return view.render('dashboard.category-edit', {cat:cat.toJSON()})
     } catch (error) {
       console.log(error)
-      return response.redirect('/categorias')
+      return response.redirect(slash+'/categorias')
     }
   }
 
