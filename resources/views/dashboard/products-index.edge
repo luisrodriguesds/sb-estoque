@@ -40,7 +40,7 @@
                     <div id="dataTable_filter" class="dataTables_filter">
 
                         <label style="width: 50%;">Procurar:
-                            <input type="search" name="search" class="form-control form-control-sm" placeholder="Digite o código de barra, nome, categoria, subcategoria e etc ...">
+                            <input type="search" name="search" value="{{request.all().search ? request.all().search : ''}}" class="form-control form-control-sm" placeholder="Digite o código de barra, nome, categoria, subcategoria e etc ...">
                         </label>
                         <a href="{{URLBASE()}}/produtos/cadastrar" class="btn btn-success">
                             <i class="fas fa-plus"></i> Cadastrar Produto
