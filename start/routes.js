@@ -58,6 +58,7 @@ Route.group(() => {
     Route.get('/categorias/cadastrar', 'CategoryController.create').as('category.create')
     Route.get('/categorias/editar/:id', 'CategoryController.edit')
     Route.post('/categorias/cadastrar', 'CategoryController.store').as('category.store').validator(['StoreCategory'])
+    Route.post('/categorias/editar', 'CategoryController.edit_store').as('category.edit-store').validator(['StoreCategory'])
     Route.get('/categorias/show-api/:id', 'CategoryController.show_api').as('category.show-api')
 })
 

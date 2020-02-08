@@ -124,38 +124,38 @@
 <script>
     var URLBASE = '{{URLBASE()}}'
     function getCategory(e){
-        var link = URLBASE+window.location.pathname+'?category='+e.value;
+        var link = URLBASE+'/produtos?category='+e.value;
         window.location=link
     }
     
     function getSubcategory(e){
         if(window.location.search == ""){
-            var link = URLBASE+window.location.pathname+'?category=1&subcategory='+e.value;
+            var link = URLBASE+'/produtos?category=1&subcategory='+e.value;
         }else{
             var params = {}
             location.search.substr(1).split("&").forEach(function(item) {params[item.split("=")[0]] = item.split("=")[1]})
-            window.location=URLBASE+window.location.pathname+'?category='+params.category+'&subcategory='+e.value;
+            window.location=URLBASE+'/produtos?category='+params.category+'&subcategory='+e.value;
         }
     }
 
     function search(e){
         console.log(e)
         if (e.keyCode == 13) {
-            window.location=URLBASE+window.location.pathname+'?search='+e.srcElement.value
+            window.location=URLBASE+'/produtos?search='+e.srcElement.value
         }
     }
 
     function plusProd(id){
-        window.location=URLBASE+window.location.pathname+'/plus/'+id
+        window.location=URLBASE+'/produtos/plus/'+id
     }
 
     function minusProd(id){
-        window.location=URLBASE+window.location.pathname+'/minus/'+id
+        window.location=URLBASE+'/produtos/minus/'+id
     }
 
     function destroy(id){
         if (confirm("Deseja exluir este produto?")) {
-            window.location=URLBASE+window.location.pathname+'/excluir/'+id
+            window.location=URLBASE+'/produtos/excluir/'+id
         }
     }
 

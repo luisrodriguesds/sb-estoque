@@ -18,7 +18,7 @@
               @endif
 
             </div>
-            <form method="POST" action="{{URLBASE()}}{{route('user.login')}}" class="user">
+            <form method="POST" action="{{URLBASE() + route('user.login')}}" class="user">
               {{csrfField()}}
               <div class="form-group">
                 <input type="email" class="form-control form-control-user {{ hasErrorFor('email') ? 'is-invalid' : '' }}" value="{{old('email')}}" name="email" aria-describedby="emailHelp" placeholder="Email">
