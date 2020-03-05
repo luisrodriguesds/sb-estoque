@@ -203,6 +203,9 @@
                 oReq.onload = function(e) {
                     var arr = JSON.parse(oReq.response)[0]; // não é responseText
                     if (arr != null) {
+                        arr.category_id  ? document.querySelector('#category_id').value = arr.category_id : ''
+                        var e = {value: arr.category_id}
+                        getCategory(e)
                         arr.name  ? document.querySelector('#name').value = arr.name : ''
                         arr.price ? document.querySelector('#price').value = arr.price : ''
                         arr.current_stock ? document.querySelector('#current_stock').value = arr.current_stock : ''
@@ -212,10 +215,14 @@
                         arr.where ? document.querySelector('#where').value = arr.where : ''
                         arr.url ? document.querySelector('#url').value = arr.url : ''
                         arr.number ? document.querySelector('#number').value = arr.number : ''
-                        arr.material_type ? document.querySelector('#material_type').value = arr.material_type : ''
+                        arr.material_type ? document.querySelector('#material_type').value = arr.material_type.toLowerCase() : ''
                         arr.belongsto ? document.querySelector('#belongsto').value = arr.belongsto : ''
                         arr.description ? document.querySelector('#description').value = arr.description : ''
                         console.log(arr)
+                        setTimeout(function(){
+                            arr.subcategory_id  ? document.querySelector('#subcategory_id').value = arr.subcategory_id : ''
+                        }, 500)
+                        
                     }
                 }
         //}
